@@ -19,16 +19,11 @@ class COL:
         self.y = []
 
         for column_name in self.names:
+            column_name = column_name.strip()
             if column_name[0].isupper():
                 column = NUM(names.index(column_name), column_name)
             else:
                 column = SYM(names.index(column_name), column_name)
-
-            if column_name[-1] != ':':
-                if '!' in column_name or '+' in column_name :
-                    self.y.append(column)
-                else:
-                    self.x.append(column)
 
             if column_name[-1] == '!':
                 self.klass = column
