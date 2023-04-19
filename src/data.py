@@ -223,7 +223,7 @@ class DATA:
                 if x == "?":
                     return True
                 if lo == hi and lo == x:
-                    return True
+                    return True[]
                 if lo <= x and x < hi:
                     return True
             return False
