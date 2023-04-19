@@ -53,14 +53,14 @@ table_1 = {'all': {'data' : [], 'evals' : 0},
              'sway2': {'data' : [], 'evals' : 0},
              'xpln1': {'data' : [], 'evals' : 0},
              'xpln2': {'data' : [], 'evals' : 0},
-             'top': {'data' : [], 'evals' : 0}}
+             'top':   {'data' : [], 'evals' : 0}}
 
 table_2 = [[['all', 'all'],None],
-                [['all', 'sway1'],None],
-                [['sway1', 'sway2'],None],
-                [['sway1', 'xpln1'],None],
-                [['sway2', 'xpln2'],None],
-                [['sway1', 'top'],None]]
+           [['all', 'sway1'],None],
+           [['sway1', 'sway2'],None],
+           [['sway1', 'xpln1'],None],
+           [['sway2', 'xpln2'],None],
+           [['sway1', 'top'],None]]
 
 
 
