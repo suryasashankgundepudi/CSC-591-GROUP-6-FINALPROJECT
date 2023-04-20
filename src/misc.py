@@ -1,28 +1,15 @@
 import json
 import sys, re, copy
 from numerics import *
-from config import *
-from operator import itemgetter
-import os
+import config
+from operator import *
 from sym import SYM
 import math
-
-def csv(fileName, fun):
-    """
-    Function for reading the csv file and applying a function over the text in csv file
-    """
-
-    if os.path.exists(fileName) and fileName.endswith(".csv"):
-        with open(fileName, "r", encoding="utf-8") as file:
-            for _, row in enumerate(file):
-                r = list(map(coerce, row.strip().split(",")))
-                fun(r)
-    else:
-        print("File does not exist at : ", fileName)
-        return 0
+from discrete import XPLN
+from optimize import *
 
 
-def misc(fun, iterable):
+def misc1(fun, iterable):
     """
     Maps the function over the iterable
     fun : Function that must be applied on each element of iterable
@@ -41,7 +28,7 @@ def eg(key, str, fun):
     """
     Function for running the example test cases in test files and main.py
     """
-    egs[key] = fun
+    config.egs[key] = fun
     global help
     help = help + '  -g ' + key + '\t' + str + '\n'
 
@@ -99,12 +86,13 @@ def coerce(s):
         elif s1 == "false" or s1 == "False":
             return False
         return s1
-
+    
     if s.isdigit():
         return int(s)
     elif "." in s and s.replace(".", "").isdigit():
         return float(s)
     else:
+        print('llllllllllllllllllll',fun(s.strip()))
         return fun(s.strip())
 
 
@@ -185,6 +173,20 @@ def show(node, what, cols, n_places, lvl=0):
 def deepcopy(t):
     return copy.deepcopy(t)
 
+def get_mean(data_obj_list):
+    mean = {}
+    n_iter = len(data_obj_list)
+   
+    # For each data_obj, get sum of mid/mode
+    for data_obj in data_obj_list:
+        for k, v in data_obj.stats().items():
+            mean[k] = mean.get(k, 0) + v
+   
+    # Convert sums to averages
+    for k in mean:
+        mean[k] = round(mean[k] / n_iter, 2)
+       
+    return mean
 def repPlace(data):
     n,g = 20,{}
     for i in range(1, n+1):
@@ -230,12 +232,13 @@ def cliffsDelta(ns1,ns2):
                 gt = gt + 1
             if x < y:
                 lt = lt + 1
-    return abs(lt - gt)/n > the['cliffs']  
+    return abs(lt - gt)/n > config.the['cliffs']  
 
 def RANGE_1(at,txt,lo,hi=None):
     return {'at':at,'txt':txt,'lo':lo,'hi':lo or hi or lo,'y':SYM()}
 
 def itself(x):
     return x
+
 
 

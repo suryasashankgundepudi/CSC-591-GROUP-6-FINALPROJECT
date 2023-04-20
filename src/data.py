@@ -4,23 +4,27 @@ from col import COL
 from config import *
 from numerics import *
 import math
+import operations
 from rule import *
-
+import os
+import csv
+from optimize import OPTIMIZE
+import utils
 
 class DATA:
-    def __init__(self, src):
-        """
-        Initializing function for data class object.
-        A container for self.rows to be summarized in self.cols
-        """
+    def __init__(self, src, rows = None):
         self.rows = []
         self.cols = None
+        add = lambda t: operations.row(self, t)
         if isinstance(src, str):
-            csv(src, self.add)
+            utils.readCSV(src, add)
         else:
-            for i in src:
-                self.add(i)
+            self.cols = COL(src.cols.names)
+            if rows:
+                for row in rows:
+                    add(row)
 
+    
     def add(self, t):
         """
         Add a new row and update the column headers
@@ -190,4 +194,3 @@ class DATA:
         tmp=sorted(self.rows, key=lambda row: self.better(row, self.rows[self.rows.index(row)-1]))
         return  n and tmp[0:n], tmp[n+1:]  or tmp
 
-    

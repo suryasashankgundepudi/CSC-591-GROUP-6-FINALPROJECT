@@ -2,7 +2,7 @@ the = {
     'dump': False,
     'go': None,
     'seed': 937162211,
-    'file': "/Users/harshithaparuchuri/Documents/NCSU/sem2/ASE/ASE591-HW_GP6-9/etc/data/auto93.csv",
+    'file': "C:/Users/91918/Desktop/ASE_Project/CSC-591-GROUP-6-FINALPROJECT/etc/data/auto93.csv",
     "Halves": 512,
     "p":2,
     "Far":.95,
@@ -61,8 +61,3 @@ table_2 = [[['all', 'all'],None],
            [['sway1', 'xpln1'],None],
            [['sway2', 'xpln2'],None],
            [['sway1', 'top'],None]]
-
-
-
-
-
