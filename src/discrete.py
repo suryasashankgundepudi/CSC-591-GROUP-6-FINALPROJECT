@@ -1,5 +1,6 @@
 from range import value, bins
 from misc import kap
+from rule import RULE
 
 class XPLN:
     def __init__(self, best, rest):
@@ -11,36 +12,42 @@ class XPLN:
     def xpln1(self, data, best, rest):
         def v(has):
             return value(has, len(best.rows), len(rest.rows), 'best')
-        
+        def score(self, ranges):
+            rule = RULE.RULE_SIZE(self,ranges, self.maxSizes)
+            if rule:
+                bestr = selects(rule, self.best.rows)
+                restr = selects(rule, self.rest.rows)
+                if len(bestr) + len(restr) > 0:
+                    return value({'best': len(bestr), 'rest': len(restr)}, len(self.best.rows), len(self.rest.rows), 'best'), rule
         tmp,self.maxSizes = [],{}
         for _,ranges in enumerate(bins(data.cols.x,{'best':best.rows, 'rest':rest.rows})):
             self.maxSizes[ranges[0].txt] = len(ranges)
             for _,range in enumerate(ranges):
                 tmp.append({'range':range, 'max':len(ranges),'val': v(range.y.has)})
-        rule,most=self.firstN(sorted(tmp,key = lambda x: x['val'],reverse=True),self.score)
+        rule,most=self.firstN1(sorted(tmp,key = lambda x: x['val'],reverse=True),score)
         return rule,most  
     
     def xpln2(self, data, best, rest):
         def v(has):
             return value(has, len(best.rows), len(rest.rows), 'best')
-        def score(self, ranges):
-            rule = self.RULE(ranges, self.maxSizes)
-            if rule:
-                bestr = selects2(rule, self.best.rows)
-                restr = selects2(rule, self.rest.rows)
+        def score(ranges, negranges):
+            rule = {'pos':RULE.RULE_SIZE(self,ranges, maxSizes), 'neg':RULE.RULE_SIZE(self,negranges, maxSizes)}
+            if rule['pos']:
+                bestr= self.selects2(rule, best.rows)
+                restr= self.selects2(rule, rest.rows)
                 if len(bestr) + len(restr) > 0:
-                    return value({'best': len(bestr), 'rest': len(restr)}, len(self.best.rows), len(self.rest.rows), 'best'), rule
-        return None,None
-        
-        tmp,self.maxSizes = [],{}
-        for _,ranges in enumerate(bins(data.cols.x,{'best':best.rows, 'rest':rest.rows})):
-            self.maxSizes[ranges[0].txt] = len(ranges)
-            for _,range in enumerate(ranges):
-                tmp.append({'range':range, 'max':len(ranges),'val': v(range.y.has)})
-        rule,most=self.firstN2(sorted(tmp,key = lambda x: x['val'],reverse=True),self.score)
-        return rule,most 
+                    return v({"best": len(bestr), "rest": len(restr)}), rule
+        tmp, maxSizes = [], {}
+        for ranges in bins(data.cols.x, {'best': best.rows, 'rest': rest.rows}):
+            ranges = list(ranges.values()) if isinstance(ranges, dict) else ranges
+            maxSizes[ranges[0].txt] = len(ranges)
+            for range in ranges:
+                tmp.append({'range': range, 'max': len(ranges), 'val': v(range.y.has)})
+
+        rule, most = self.firstN2(sorted(tmp, key=lambda x: x["val"], reverse=True), score)
+        return rule, most 
     
-    def firstN(self, sorted_ranges, scoreFun):
+    def firstN1(self, sorted_ranges, scoreFun):
         first = sorted_ranges[0]['val']
 
         def useful(range):
@@ -76,27 +83,6 @@ class XPLN:
             if tmp is not None and tmp > most:
                 out, most = rule, tmp
         return out, most
-    
-    def prune(self, rule, maxSize):
-        n=0
-        new_rule = {}
-        for txt,ranges in rule.items():
-            n = n+1
-            if len(ranges) == maxSize[txt]:
-                n=n-1
-                rule[txt] = None
-            else:
-                new_rule[txt] = ranges
-        if n > 0: 
-            return new_rule
-        return None
-    
-    def RULE(self, ranges,maxSize):
-        t={}
-        for range in ranges:
-            t[range.txt] = t.get(range.txt, [])
-            t[range.txt].append({'lo':range.lo,'hi':range.hi,'at':range.at})
-        return self.prune(t, maxSize)
     
 def showRule(rule):
     def pretty(range):
@@ -169,7 +155,6 @@ def selects2(rule, rows):
             return True
         else:
             return True
-
 
     def function(r):
         return r if conjunction(r) else None

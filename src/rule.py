@@ -1,5 +1,5 @@
 class RULE: 
-    def prune(rule, maxSize):
+    def prune(self,rule, maxSize):
         n=0
         for txt,ranges in rule.items():
             n = n+1
@@ -13,5 +13,5 @@ class RULE:
             for range in ranges:
                 t[range['txt']] = t.get(range['txt']) or []
                 t[range['txt']].append({'lo' : range['lo'],'hi' : range['hi'],'at':range['at']})
-            return self.prune(t, maxSize)
+            return self.prune(self,t, maxSize)
    

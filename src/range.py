@@ -42,7 +42,7 @@ def bins(cols,rowss):
             if x != '?':
                 n = n + 1
                 k = bin(col,x)
-                ranges[k] = ranges.get(k, RANGE(col.at,col.txt,x))
+                ranges[k] = ranges.get(k,RANGE_1(col.at,col.txt,x))
                 extend(ranges[k], x, y)
         n,ranges = 0,{}
         for y,rows in rowss.items():

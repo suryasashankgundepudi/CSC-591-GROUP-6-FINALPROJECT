@@ -4,6 +4,7 @@ from col import COL
 from config import *
 from numerics import *
 import math
+from rule import *
 
 
 class DATA:
@@ -162,26 +163,6 @@ class DATA:
             node['right'] = self.tree(right, min, cols, node['B'])
         return node
     
-    def xpln(self,best,rest):
-        tmp,maxSizes = [],{}
-        def v(has):
-            return value(has, len(best.rows), len(rest.rows), "best")
-        def score(ranges):
-            rule = self.RULE_SIZE(ranges,maxSizes)
-            if rule:
-                print(self.showRule(rule))
-                bestr= self.selects(rule, best.rows)
-                restr= self.selects(rule, rest.rows)
-                if len(bestr) + len(restr) > 0: 
-                    return v({'best': len(bestr), 'rest':len(restr)}),rule
-        for ranges in bins(self.cols.x,{'best':best.rows, 'rest':rest.rows}):
-            maxSizes[ranges[0]['txt']] = len(ranges)
-            print("")
-            for range in ranges:
-                print(range['txt'], range['lo'], range['hi'])
-                tmp.append({'range':range, 'max':len(ranges),'val': v(range['y'].has)})
-        rule,most=firstN(sorted(tmp, key=itemgetter('val')),score)
-        return rule,most
     
     def showRule(self,rule):
         def pretty(range):
@@ -204,38 +185,7 @@ class DATA:
             return list(map(pretty,merge(sorted(ranges,key=itemgetter('lo'))))),attr
         return dkap(rule,merges)
     
-    def RULE_SIZE(self,ranges,maxSize):
-        t={}
-        for range in ranges:
-            t[range['txt']] = t.get(range['txt']) or []
-            t[range['txt']].append({'lo' : range['lo'],'hi' : range['hi'],'at':range['at']})
-        return prune(t, maxSize)
     
     def betters(self,n):
         tmp=sorted(self.rows, key=lambda row: self.better(row, self.rows[self.rows.index(row)-1]))
         return  n and tmp[0:n], tmp[n+1:]  or tmp
-
-    def selects(self, rule, rows):
-        def disjunction(ranges, row):
-            for range in ranges:
-                lo, hi, at = range['lo'], range['hi'], range['at']
-                x = row.cells[at]
-                if x == "?":
-                    return True
-                if lo == hi and lo == x:
-                    return True
-                if lo <= x and x < hi:
-                    return True
-            return False
-
-        def conjunction(row):
-            for ranges in rule.values():
-                if not disjunction(ranges, row):
-                    return False
-            return True
-
-        def function(r):
-            if conjunction(r):
-                return r
-
-        return list(map(function, rows))
