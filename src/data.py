@@ -189,3 +189,5 @@ class DATA:
     def betters(self,n):
         tmp=sorted(self.rows, key=lambda row: self.better(row, self.rows[self.rows.index(row)-1]))
         return  n and tmp[0:n], tmp[n+1:]  or tmp
+
+    
