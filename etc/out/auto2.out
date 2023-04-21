@@ -1,0 +1,27 @@
+*********************************
+Dataset: auto2.csv
+********************************
+Mean results of best outcomes from 20 runs
+***********************************
+
+         CityMPG+   HighwayMPG+     Weight-     Class-
+all      21.0       28.0            3040.0      17.7
+sway1    30.95      35.65           2296.25     10.16
+xpln1    28.6       33.05           2348.5      10.63
+sway2    31.0       37.0            2055.0      9.0 
+xpln2    22.0       28.95           2910.25     16.37 
+top      46.0       50.0            1695.0      8.4
+
+
+**********************************
+Size Test Comparison - Cliffs Delta
+************************************
+              CityMPG+  HighwayMPG+  Weight- Class-
+all to all       =      =       =       =
+all to sway1     ≠      ≠       ≠       ≠
+all to sway2     ≠      ≠       ≠       ≠
+sway1 to sway2   ≠      ≠       ≠       ≠
+sway1 to xpln1   ≠      ≠       ≠       ≠
+sway2 to xpln2   ≠      ≠       ≠       ≠
+sway1 to top     ≠      ≠       ≠       ≠
+
