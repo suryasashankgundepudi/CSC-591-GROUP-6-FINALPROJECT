@@ -1,0 +1,26 @@
+*********************************
+Dataset: pom.csv
+*********************************
+Mean results of best outcomes from 20 runs
+*********************************
+
+         Cost-  Completion+     Idle-
+all      326.11 0.9             0.24
+sway1    240.3  0.9             0.26
+xpln1    317.84 0.9             0.24
+sway2    317.68 0.9             0.23
+xpln2    326.94 0.9             0.24
+top      81.12  1.0             0.0
+
+
+*********************************
+Size Comparison - Cliffs Delta
+*********************************
+                 Cost-  Completion+     Idle-
+all to all       =      =                =
+all to sway1     ≠      =                =
+all to sway2     =      =                =
+sway1 to sway2   ≠      =                ≠
+sway1 to xpln1   ≠      =                =
+sway2 to xpln2   =      ≠                =
+sway1 to top     ≠      ≠                ≠

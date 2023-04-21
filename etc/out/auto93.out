@@ -1,0 +1,26 @@
+*********************************
+Dataset: auto93.csv
+*********************************
+Mean results of best outcomes from 20 runs
+*********************************
+
+         Lbs-       Acc+    Mpg+
+all      2800.0     15.5    20.0
+sway1    2144.05    16.26   32.0
+xpln1    2715.25    15.53   22.0
+sway2    2290.0     15.5    30.0                                
+xpln2    2807.0     15.5    20.0
+top      2130.0     24.6    40.0
+
+
+*********************************
+Size Comparison - Cliffs Delta
+*********************************
+                 Lbs-   Acc+    Mpg+
+all to all       =      =       =
+all to sway1     ≠      ≠       ≠
+all to sway2     ≠      ≠       ≠
+sway1 to sway2   ≠      ≠       ≠
+sway1 to xpln1   ≠      ≠       ≠
+sway2 to xpln2   ≠      =       ≠
+sway1 to top     ≠      ≠       ≠

@@ -1,0 +1,26 @@
+*********************************
+Dataset: healthCloseIsses12mths0001-hard.csv
+*********************************
+Mean results of best outcomes from 20 runs
+*********************************
+
+         MRE-   ACC+    PRED40+
+all      75.04  7.11    25.0
+sway1    73.49  7.6     25.0 
+xpln1    73.78  7.55    25.0
+sway2    71.86  8.09    25.0
+xpln2    73.06  7.73    25.0 
+top      64.91  11.33   25.0
+
+
+*********************************
+Size Comparison - Cliffs Delta
+*********************************
+                 MRE-   ACC+    PRED40+
+all to all       =      =       =
+all to sway1     ≠      ≠       =
+all to sway2     ≠      ≠       =
+sway1 to sway2   =      =       =
+sway1 to xpln1   =      =       =
+sway2 to xpln2   =      =       =
+sway1 to top     ≠      ≠       ≠

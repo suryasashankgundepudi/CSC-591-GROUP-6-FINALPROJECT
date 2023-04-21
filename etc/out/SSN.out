@@ -1,0 +1,26 @@
+*******************
+Dataset: SSN.csv
+*********************************
+Mean results of best outcomes from 20 runs
+*********************************
+
+         PSNR-  Energy-
+all      45.8   1270.29
+sway1    45.21  1100.75
+xpln1    45.66  1149.3 
+sway2    35.27  272.86
+xpln2    37.62  339.88
+top      15.89  0.0
+
+
+*********************************
+Size Comparison - Cliffs Delta
+*********************************
+                 PSNR-  Energy-
+all to all       =      =
+all to sway1     =      ≠
+all to sway2     ≠      =
+sway1 to sway2   =      ≠
+sway1 to xpln1   =      ≠
+sway2 to xpln2   ≠      =
+sway1 to top     ≠      ≠

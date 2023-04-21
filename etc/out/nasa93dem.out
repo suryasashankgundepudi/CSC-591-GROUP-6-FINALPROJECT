@@ -1,0 +1,26 @@
+*********************************
+Dataset: nasa93dem.csv
+*********************************
+Mean results of best outcomes from 20 runs
+*********************************
+
+         Kloc+  Effort- Defects-  Months-
+all      47.5   252.0   2007.0    21.4
+sway1    42.93  185.1   1849.0    18.48
+xpln1    36.41  154.9   1489.35   17.71
+sway2    39.16  156.63  1483.75   17.2
+xpln2    31.45  111.0   1123.45   15.85
+top      0.9    8.4     28.0      4.9
+
+
+*********************************
+Size Comparison - Cliffs Delta
+*********************************
+                 Kloc+  Effort- Defects- Months-
+all to all       =      =       =        =
+all to sway1     ≠      ≠       ≠       ≠
+all to sway2     ≠      ≠       ≠       ≠
+sway1 to sway2   ≠      ≠       ≠       ≠
+sway1 to xpln1   ≠      ≠       ≠       ≠
+sway2 to xpln2   ≠      ≠       ≠       ≠
+sway1 to top     ≠      ≠       ≠       ≠

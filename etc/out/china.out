@@ -1,0 +1,26 @@
+*********************************
+Dataset: china.csv
+********************************
+Mean results of best outcomes from 20 runs
+*********************************
+
+         N_effort-
+all      2098.0
+sway1    693.85
+xpln1    1370.05
+sway2    145.0
+xpln2    1765.75
+top      31.0
+
+
+*********************************
+Size Comparison - Cliffs Delta
+*********************************
+                 N_effort-
+all to all       =
+all to sway1     ≠
+all to sway2     ≠
+sway1 to sway2   ≠
+sway1 to xpln1   ≠
+sway2 to xpln2   ≠
+sway1 to top     ≠

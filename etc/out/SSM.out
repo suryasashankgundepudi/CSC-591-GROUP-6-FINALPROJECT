@@ -1,0 +1,26 @@
+*********************************
+Dataset: SSM.csv
+*********************************
+Mean results of best outcomes from 20 runs
+*********************************
+
+         NUMBERITERATIONS-      TIMETOSOLUTION-
+all      6.8                    134.54
+sway1    5.7                    120.55
+xpln1    5.9                    116.42
+sway2    5.0                    60.51
+xpln2    6.95                   134.44
+top      3.0                    32.96
+
+
+*********************************
+Size Comparison - Cliffs Delta
+*********************************
+                 NUMBERITERATIONS-      TIMETOSOLUTION-
+all to all       =                      =
+all to sway1     ≠                      ≠
+all to sway2     ≠                      ≠
+sway1 to sway2   =                      =
+sway1 to xpln1   ≠                      ≠
+sway2 to xpln2   ≠                      ≠
+sway1 to top     ≠                      ≠
