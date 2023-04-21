@@ -1,19 +1,10 @@
 import argparse
-import csv
-import json
-import math
-import os
-import random
 from site import sethelper
 from num import NUM
-from data import DATA
 from operations import *
-import range
-import optimize as opt
-import discrete as disc
 from optimize import OPTIMIZE
 from discrete import XPLN
-
+import os
 
 args = None
 Seed = None
@@ -78,34 +69,3 @@ def getCliArgs(seed):
 
     )
 
-def xplnFunc(args):
-    global Seed
-    Seed=utils.args.seed
-    result = {}
-    script_dir = os.path.dirname(__file__)
-    full_path = os.path.join(script_dir, args)
-    data = DATA(full_path)
-    sway_best, sway_rest, evals = OPTIMIZE.sway()
-    result['all'] = data.stats(data)
-    result['sway1'] = data.stats(sway_best)
-    rule, _ = XPLN.xpln1(data, sway_best, sway_rest)
-    data1 = DATA(data, XPLN.selects(rule, data.rows))
-    result['xpln1'] = data.stats(data1)
-    top, _ = data.betters(data, 1)
-    top = DATA(data, top)
-    result['top'] = data.stats(top)
-    full_path = os.path.join(script_dir, args)
-    data = DATA(full_path)
-    sway_best, sway_rest, evals = OPTIMIZE.sway('kmeans')
-    result['sway2'] = data.stats(sway_best)
-    rule, _ = XPLN.xpln2(data, sway_best, sway_rest)
-    data1 = DATA(data, XPLN.selects2(rule, data.rows))
-    result['xpln2'] = data.stats(data1)
-
-    return result
-
-    def csv_1(sFilename, fun):
-        with open(sFilename, mode='r') as file:
-            csvFile = csv.reader(file)
-            for line in csvFile:
-                fun(line)

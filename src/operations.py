@@ -2,16 +2,6 @@ from col import COL
 import utils
 import random
 
-def row(data, t):
-    if data.cols:
-        data.rows.append(t)
-        for col in [data.cols.x, data.cols.y]:
-            for c in col:
-                add(c, t[c.at])
-    else:
-        data.cols = COL(t)
-    return data
-
 def add(col, x, n=None):
     def sym(t):
         t[x] = n + (t.get(x, 0))

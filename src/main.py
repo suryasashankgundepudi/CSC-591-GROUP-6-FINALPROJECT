@@ -3,8 +3,10 @@ import copy
 from config import *
 from data import *
 from utils import *
+from optimize import OPTIMIZE
 
 def main():
+
     global args
     seedarr = [
         937162211, 6541321, 9879653, 9362224, 937162268,
@@ -13,9 +15,12 @@ def main():
         630148470, 51327910, 989462111, 7054511, 9332211
     ]
     result_array = []
+
     for seed in seedarr:
-        args = utils.getCliArgs(seed)
-        result = utils.xplnFunc()
+        
+        args = OPTIMIZE.getCliArgs(seed)
+        print(args)
+        result = OPTIMIZE.xplnFunc()
         result_array.append(result)
 
 
@@ -37,7 +42,7 @@ def main():
 
     print('\n')
     print('\n')
-    print('**********************************\nEffect Size Test Comparison - Cliffs Delta\n************************************')
+    print('**********************************\nSize Comparison - Cliffs Delta\n************************************')
     print("\t\t",'\t'.join(all_stats['all'].keys()))
     for i in [('all', 'all'), ('all', 'sway1'), ('all', 'sway2'), ('sway1', 'sway2'), ('sway1', 'xpln1'), ('sway2', 'xpln2'), ('sway1', 'top')]:
         effect_sizes = [cliffsDelta(data_store[i[0]][j], data_store[i[1]][j]) for j in all_stats['all'].keys()]

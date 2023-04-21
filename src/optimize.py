@@ -1,10 +1,19 @@
+import argparse
+from misc import *
 from data import *
 import numpy as np
 from sklearn.cluster import KMeans
 import random
-import misc
+from discrete import XPLN
+import os
+import random
+import data as dt
 
 class OPTIMIZE :
+    Seed = None
+    args = None
+    n = 0
+    egs = {}
 
     def half(self, rows = None, cols = None, above = None):
         def gap(row1,row2): 
@@ -16,7 +25,7 @@ class OPTIMIZE :
         def project(row):
             return {'row' : row, 'dist' : cosine(gap(row,A), gap(row,B), c)}
         rows = rows or self.rows
-        some = misc.many(rows,the['Halves'])
+        some = many(rows,the['Halves'])
         A    = above if above and the['Reuse'] else any(some)
         tmp = sorted([{'row': r, 'dist': gap(r, A)} for r in some], key=lambda x: x['dist'])
         far = tmp[int((len(tmp) - 1) * the['Far'])]
@@ -87,7 +96,7 @@ class OPTIMIZE :
         data = self
         def worker(rows, worse, evals0 = None, above = None):
             if len(rows) <= len(data.rows)**the['min']: 
-                return rows, misc.many(worse, the['rest']*len(rows)), evals0
+                return rows, many(worse, the['rest']*len(rows)), evals0
             else:
                 #we are using half(default in sway) and Kmeans algorithm to compare the results and check whether its optimizing the result or not
                 if clus=='half':
@@ -107,3 +116,95 @@ class OPTIMIZE :
                 return worker(l,worse,evals+evals0,A)
         best,rest,evals = worker(data.rows,[],0)
         return DATA.clone(self, best), DATA.clone(self, rest), evals
+    
+
+
+    def getCliArgs(seed):
+        print(seed)
+        parser = argparse.ArgumentParser(add_help=False)
+        parser.add_argument(
+            "-b",
+            "--bins",
+            type=int,
+            default=16,
+            required=False,
+            help="initial number of bins",
+        )
+        parser.add_argument(
+            "-d",
+            "--d",
+            type=float,
+            default=0.35,
+            required=False,
+            help="different is over sd*d",
+        )
+        parser.add_argument(
+            "-g", "--go", type=str, default="all", required=False, help="start-up action"
+        )
+        parser.add_argument(
+            "-h", "--help", action="store_true", help="show help"
+        )
+        parser.add_argument(
+            "-s",
+            "--seed",
+            type=int,
+            default=seed,
+            required=False,
+            help="random number seed",
+        )
+        parser.add_argument(
+            "-f",
+            "--file",
+            type=str,
+            default="../etc/data/healthCloseIsses12mths0001-hard.csv",
+            required=False,
+            help="data file",
+        )
+        parser.add_argument(
+            "-p",
+            "--p",
+            type=int,
+            default=2,
+            required=False,
+            help="distance coefficient",
+        )
+        parser.add_argument(
+            "-c",
+            "--cliffs",
+            type=float,
+            default=0.147,
+            required=False,
+            help="cliff's delta threshold"
+
+        )
+        args = parser.parse_args()
+        return args
+        
+    def xplnFunc():
+
+        global Seed
+        # Seed = OPTIMIZE.args.seed
+        args=OPTIMIZE.getCliArgs(Seed)
+        result = {}
+        script_dir = os.path.dirname(__file__)
+        full_path = os.path.join(script_dir, args.file)
+        data = dt.DATA(full_path)
+        sway_best, sway_rest, evals = OPTIMIZE.sway()
+        result['all'] = data.stats(data)
+        result['sway1'] = data.stats(sway_best)
+        rule, _ = XPLN.xpln1(data, sway_best, sway_rest)
+        data1 = dt.DATA(data, XPLN.selects(rule, data.rows))
+        result['xpln1'] = data.stats(data1)
+        top, _ = data.betters(data, 1)
+        top = dt.DATA(data, top)
+        result['top'] = data.stats(top)
+        full_path = os.path.join(script_dir, args.file)
+        data = dt.DATA(full_path)
+        sway_best, sway_rest, evals = OPTIMIZE.sway('kmeans')
+        result['sway2'] = data.stats(sway_best)
+        rule, _ = XPLN.xpln2(data, sway_best, sway_rest)
+        data1 = dt.DATA(data, XPLN.selects2(rule, data.rows))
+        result['xpln2'] = data.stats(data1)
+
+        return result  
+        

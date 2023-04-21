@@ -1,30 +1,58 @@
-from misc import *
+import misc
 from row import ROW
 from col import COL
 from config import *
 from numerics import *
 import math
-import operations
 from rule import *
-import os
 import csv
-from optimize import OPTIMIZE
-import utils
+import os
+import random
+from utils import *
 
 class DATA:
     def __init__(self, src, rows = None):
         self.rows = []
         self.cols = None
-        add = lambda t: operations.row(self, t)
+        add = lambda t: row(self, t)
+        print("@11",add)
+        print("@12",src)
+        src="C:/Users/91918/Desktop/ASE_Project/CSC-591-GROUP-6-FINALPROJECT/etc/data/auto2.csv"
+        print("@13",src)
         if isinstance(src, str):
-            utils.readCSV(src, add)
+            self.readcsv(add)
         else:
             self.cols = COL(src.cols.names)
             if rows:
                 for row in rows:
                     add(row)
 
-    
+    def row(data, t):
+        if data.cols:
+            data.rows.append(t)
+            for col in [data.cols.x, data.cols.y]:
+                for c in col:
+                    DATA.add(c, t[c.at])
+        else:
+            data.cols = COL(t)
+        return data
+
+    def add(col, x, n=None):
+        def sym(t):
+            t[x] = n + (t.get(x, 0))
+            if t[x] > col.most:
+                col.most, col.mode = t[x], x
+
+        def num(t):
+            col.lo, col.hi = min(x, col.lo), max(x, col.hi)
+            if len(t) < utils.args.Max:
+                col.ok = False
+                t.append(x)
+            elif random.random() < utils.args.Max / col.n:
+                col.ok = False
+                t[random.randint(0, len(t) - 1)] = x
+
+
     def add(self, t):
         """
         Add a new row and update the column headers
@@ -57,7 +85,7 @@ class DATA:
             else:
                 val = col.mid()
             return col.rnd(val, nPlaces),col.txt
-        return kap(cols or self.cols.y, fun)
+        return misc.kap(cols or self.cols.y, fun)
 
 
     def dist(self, row1, row2, cols=None):
@@ -82,13 +110,13 @@ class DATA:
         def func(row2):
             return {"row": row2, "dist": self.dist(row1, row2, cols)}
 
-        return sorted(list(map(func, rows or self.rows)), key=itemgetter("dist"))
+        return sorted(list(map(func, rows or self.rows)), key=misc.itemgetter("dist"))
 
-    def half(self, rows=None, cols=None, above=None):
-        """
-        Divides the data with 2 points
-        """
-
+    def readcsv(sFilename, fun):
+        with open(sFilename, mode='r') as file:
+            csvFile = csv.reader(file)
+            for line in csvFile:
+                fun(line)
       
     def half(self, rows = None, cols = None, above = None):
         def gap(row1,row2): 
@@ -96,16 +124,16 @@ class DATA:
         def project(row):
             return {'row' : row, 'dist' : cosine(gap(row,A), gap(row,B), c)}
         rows = rows or self.rows
-        some = many(rows,the['Halves'])
+        some = misc.many(rows,the['Halves'])
         A    = above if above and the['Reuse'] else any(some)
         def function(r):
             return {'row' : r, 'dist' : gap(r, A)}
-        tmp = sorted(list(map(function, some)), key=itemgetter('dist'))
+        tmp = sorted(list(map(function, some)), key=misc.itemgetter('dist'))
         far = tmp[int(the['Far'] * len(rows))//1]
         B    = far['row']
         c    = far['dist']
         left, right = [], []
-        for n,tmp in enumerate(sorted(list(map(project, rows)), key=itemgetter('dist'))):
+        for n,tmp in enumerate(sorted(list(map(project, rows)), key=misc.itemgetter('dist'))):
             if n < len(rows)//2:
                 left.append(tmp['row'])
             else:
@@ -144,7 +172,7 @@ class DATA:
         data = self
         def sway1(rows, worse, evals0 = None, above = None):
             if len(rows) <= len(data.rows)**the['min']: 
-                return rows, many(worse, the['rest']*len(rows)), evals0
+                return rows, misc.many(worse, the['rest']*len(rows)), evals0
             else:
                 l,r,A,B,c,evals = self.half(rows, None, above)
                 if self.better(B,A):
@@ -186,11 +214,14 @@ class DATA:
                 j=j+1
             return t if len(t0)==len(t) else merge(t) 
         def merges(attr,ranges):
-            return list(map(pretty,merge(sorted(ranges,key=itemgetter('lo'))))),attr
-        return dkap(rule,merges)
+            return list(map(pretty,merge(sorted(ranges,key=misc.itemgetter('lo'))))),attr
+        return misc.dkap(rule,merges)
     
     
     def betters(self,n):
         tmp=sorted(self.rows, key=lambda row: self.better(row, self.rows[self.rows.index(row)-1]))
         return  n and tmp[0:n], tmp[n+1:]  or tmp
+    
+    
+    
 

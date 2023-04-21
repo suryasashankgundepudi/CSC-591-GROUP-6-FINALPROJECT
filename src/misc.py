@@ -5,8 +5,6 @@ import config
 from operator import *
 from sym import SYM
 import math
-from discrete import XPLN
-from optimize import *
 
 
 def misc1(fun, iterable):
